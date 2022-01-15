@@ -82,13 +82,6 @@ class BNCScraper:
         futures = [f.remote(uuid) for uuid in asset_uuids]
         return ray.get(futures)
 
-    def get_query_from_dataframe(self, table: str, df: pd.DataFrame) -> str:
-        df_columns = list(df)
-        columns = ",".join(df_columns)
-        values = "VALUES({})".format(",".join(["%s" for _ in df_columns])) 
-        query = "INSERT INTO {} ({}) {}".format(table, columns, values)
-        return query
-
     def get_query_from_json(self, table: str, res: list) -> str:
         values = [list(x.values()) for x in res if x]
         columns = ','.join([list(x.keys()) for x in res if x][0])
