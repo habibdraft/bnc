@@ -1,5 +1,4 @@
-import psycopg2
-import config
+import bnc
 
 queries =   ["""CREATE TABLE assets (
             id UUID PRIMARY KEY,
@@ -25,16 +24,7 @@ queries =   ["""CREATE TABLE assets (
             totalMarketCap FLOAT
             )"""]
 
-try:
-    self.conn = psycopg2.connect(config.PGConnString)
-except:
-    print ("Unable to connect to the database")
-    
-cur = conn.cursor()
+scraper = bnc.BNCScraper()
 for query in queries:
-    cur.execute(queries)
-cur.close()
-conn.commit()
-
-if conn is not None:
-    conn.close()
+    scraper.execute_query(query)
+scraper.close_connection()
