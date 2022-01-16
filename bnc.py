@@ -57,7 +57,8 @@ class BNCScraper:
             'x-rapidapi-key': config.bnc_api_key
             }
         response = requests.get(url, headers=headers, params=querystring)
-        return response.json()
+        res = response.json()
+        return res['content']
 
     def get_asset_ticker(self, asset_uuids: list, access_token: str) -> dict:
         url = config.bnc_asset_ticker_url
