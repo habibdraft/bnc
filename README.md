@@ -1,6 +1,8 @@
 # bnc
 Data scraper for the Brave New Coin API https://rapidapi.com/BraveNewCoin/api/bravenewcoin/. This uses the code snippets for Python `requests`.
 
+[Related Medium article](https://naziahabib.medium.com/create-a-data-scraper-in-python-67247e89e146)
+
 Use the following definitions in your requests as defined in `bnc.py`:
 
 `bnc_api_key` = <your_api_key_here>
