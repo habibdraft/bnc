@@ -27,4 +27,9 @@ queries =   ["""CREATE TABLE assets (
 scraper = bnc.BNCScraper()
 for query in queries:
     scraper.execute_query(query)
+
+res = scraper.get_all_assets()
+insert_query = scraper.get_query_from_json('assets', res)
+scraper.execute_query(insert_query)
+
 scraper.close_connection()
