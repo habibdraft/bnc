@@ -17,7 +17,7 @@ Use the following definitions in your requests as defined in `bnc.py`:
 
 `bnc_asset_ticker_url` = 'https://bravenewcoin.p.rapidapi.com/market-cap'
 
-# Getting data
+## Getting data
 Run the `bnc_create_tables.py` file to create the two tables `assets` and `asset_ticker` and populate the `assets` table.
 
 Schedule the `bnc_scraper.py` file to scrape data from the API as often as every five minutes.
