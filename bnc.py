@@ -1,5 +1,6 @@
 import requests
 import ray
+import pandas as pd
 import psycopg2
 import psycopg2.extras
 from psycopg2.extras import Json
@@ -7,13 +8,18 @@ import config
 
 class BNCScraper:
     def __init__(self) -> None:
+        self.asset_uuids = config.asset_uuids
+        
         try:
             self.conn = psycopg2.connect(config.PGConnString)
         except:
             print ("Unable to connect to the database")
     
-    def get_conn(self) -> psycopg2.extensions.connection:
+    def get_conn(self) -> psycopg2.extensions.connection: #change to decorator
         return self.conn
+    
+    def get_asset_uuids(self) -> list: #change to decorator
+        return self.asset_uuids
     
     def execute_query(self, query: str) -> None:
         cur = self.conn.cursor()
@@ -51,7 +57,7 @@ class BNCScraper:
 
     def get_all_assets(self) -> dict:
         url = config.bnc_asset_url
-        querystring = {"status":"ACTIVE"}
+        querystring = {'status':'ACTIVE', 'type':'CRYPTO'}
         headers = {
             'x-rapidapi-host': config.bnc_host,
             'x-rapidapi-key': config.bnc_api_key
@@ -102,3 +108,8 @@ class BNCScraper:
             values_query
             )
         return query
+    
+    def get_top_ten_currencies(self, df: pd.DataFrame) -> list:
+        f = {'price': 'mean', 'volume': 'mean', 'date': 'max', 'assetid': 'first'}
+        df_result = df.groupby(['name'], as_index=False).agg(f).sort_values(by=['price'], ascending=False)
+        return list(df_result.head(10)['assetid'])
